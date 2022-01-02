@@ -20,7 +20,7 @@ public class HomePage {
 
     public void checkTitle() {
         String actualTitle = driver.getTitle().trim();
-        Assert.assertEquals(actualTitle, "Google");
+        Assert.assertEquals("Google", actualTitle);
     }
 
     public void goToMaps() {

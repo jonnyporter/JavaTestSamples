@@ -22,7 +22,7 @@ public class MapPage {
 
     public void checkTitle() {
         String actualTitle = driver.getTitle().trim();
-        Assert.assertEquals(actualTitle, "Google Maps");
+        Assert.assertEquals("Google Maps", actualTitle);
     }
 
     public void searchCity(String cityName) {
