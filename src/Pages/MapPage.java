@@ -1,7 +1,6 @@
 package Pages;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,30 +12,33 @@ public class MapPage {
     WebDriver driver;
 
     @FindBy(id = "searchboxinput")
-    WebElement SearchField;
+    WebElement searchField;
 
     @FindBy(id = "searchbox-searchbutton")
-    WebElement SearchButton;
+    WebElement searchButton;
 
-    @FindBy(xpath = "//span[text()='Boise']")
-    WebElement CityLabel;
+    @FindBy(xpath = "//h1")
+    WebElement header;
 
-    public void searchCity(String cityName) {
-        SearchField.sendKeys(cityName);
-        SearchButton.click();
+    public void checkTitle() {
+        String actualTitle = driver.getTitle().trim();
+        Assert.assertEquals(actualTitle, "Google Maps");
     }
 
-    public void confirmCity(String cityName) {
+    public void searchCity(String cityName) {
+        searchField.sendKeys(cityName);
+        searchButton.click();
+    }
+
+    public void confirmCity(String expectedCityName) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + cityName + "']")));
-        WebElement e = driver.findElement(By.xpath("//span[text()='" + cityName + "']"));
-        Assert.assertEquals(cityName, e.getText());
+        wait.until(ExpectedConditions.visibilityOf(header));
+        String actualCityName = header.getText().trim();
+        Assert.assertEquals(expectedCityName, actualCityName);
     }
 
     public MapPage(WebDriver driver) {
         this.driver = driver;
-
-        // This initElements method will create all WebElements
         PageFactory.initElements(driver, this);
     }
 }

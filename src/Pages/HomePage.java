@@ -1,7 +1,6 @@
 package Pages;
 
-import io.cucumber.java.da.Men;
-import org.openqa.selenium.By;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,25 +8,29 @@ import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
     WebDriver driver;
+
     @FindBy(className = "gb_C")
-    WebElement MenuButton;
+    WebElement menuButton;
 
     @FindBy(tagName = "iframe")
-    WebElement MenuFrame;
+    WebElement menuFrame;
 
     @FindBy(css = "a[href='https://maps.google.com/maps?hl=en']")
-    WebElement MapsButton;
+    WebElement mapsButton;
+
+    public void checkTitle() {
+        String actualTitle = driver.getTitle().trim();
+        Assert.assertEquals(actualTitle, "Google");
+    }
 
     public void goToMaps() {
-        MenuButton.click();
-        driver.switchTo().frame(MenuFrame);
-        MapsButton.click();
+        menuButton.click();
+        driver.switchTo().frame(menuFrame);
+        mapsButton.click();
     }
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-
-        // This initElements method will create all WebElements
         PageFactory.initElements(driver, this);
     }
 }
